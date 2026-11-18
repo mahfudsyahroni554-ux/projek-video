@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bakso Ojolali - Solusi Laper Budget Mantap</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .filter-btn.active { background-color: #b91c1c; color: #ffffff; }
+        #chat-messages::-webkit-scrollbar { width: 4px; }
+        #chat-messages::-webkit-scrollbar-track { background: #fef3c7; }
+        #chat-messages::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-amber-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-red-700 text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="bg-amber-400 p-2 rounded-full text-red-900 shadow">
+                    <i class="fa-solid font-bold text-xl fa-bowl-food"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-extrabold tracking-tight">BAKSO OJOLALI</h1>
+                    <p class="text-xs text-amber-200">Enaknya Bikin Lupa Yang Lain! (10k - 20k)</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button id="cart-btn" class="relative bg-amber-400 hover:bg-amber-300 text-red-900 font-bold px-4 py-2 rounded-full transition duration-200 flex items-center space-x-2 shadow">
+                    <i class="fa-solid fa-cart-shopping text-lg"></i>
+                    <span class="hidden sm:inline">Pesanan</span>
+                    <span id="cart-count" class="bg-red-700 text-white text-xs px-2 py-0.5 rounded-full border border-amber-300">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="bg-gradient-to-r from-red-800 to-red-600 text-white py-12 px-4 shadow-inner relative overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="bg-amber-400 text-red-950 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-3 inline-block shadow">
+                Harga Hemat Rasa Mantap (10rb - 20rb)
+            </span>
+            <h2 class="text-3xl md:text-5xl font-extrabold mb-3">Nikmati Bakso Daging Sapi Asli Rasa Juara!</h2>
+            <p class="text-amber-100 text-sm md:text-lg mb-6 max-w-2xl mx-auto">
+                Kuah kaldu gurih berempah, bakso kenyal berdaging, bikin nagih dari harga Rp 10.000!
+            </p>
+            <div class="flex flex-wrap justify-center gap-3 text-xs md:text-sm">
+                <div class="bg-black/20 backdrop-blur px-3 py-1.5 rounded-lg border border-amber-400/30">
+                    <i class="fa-solid fa-circle-check text-amber-400 mr-1"></i> 100% Halal
+                </div>
+                <div class="bg-black/20 backdrop-blur px-3 py-1.5 rounded-lg border border-amber-400/30">
+                    <i class="fa-solid fa-fire text-amber-400 mr-1"></i> Kuah Segar Hangat
+                </div>
+                <div class="bg-black/20 backdrop-blur px-3 py-1.5 rounded-lg border border-amber-400/30">
+                    <i class="fa-solid fa-wallet text-amber-400 mr-1"></i> Rp 10.000 - Rp 20.000
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Filter Kategori -->
+        <div class="flex justify-center mb-8 gap-2 flex-wrap" id="category-filters">
+            <button class="filter-btn active px-4 py-2 rounded-full font-semibold text-sm transition" data-category="all">Semua Menu</button>
+            <button class="filter-btn bg-white text-slate-700 hover:bg-amber-100 px-4 py-2 rounded-full font-semibold text-sm transition border border-amber-200" data-category="makanan">Makanan (10k-20k)</button>
+            <button class="filter-btn bg-white text-slate-700 hover:bg-amber-100 px-4 py-2 rounded-full font-semibold text-sm transition border border-amber-200" data-category="minuman">Minuman (3k-5k)</button>
+        </div>
+
+        <!-- Menu Grid -->
+        <h3 class="text-2xl font-bold mb-6 border-b-2 border-amber-300 pb-2 text-red-900 flex items-center justify-between">
+            <span><i class="fa-solid fa-utensils mr-2"></i> Menu Pilihan Hemat</span>
+            <span class="text-xs font-normal text-slate-500">Harga ramah kantong</span>
+        </h3>
+
+        <div id="menu-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Menu items generated via JavaScript -->
+        </div>
+
+        <!-- Section Keunggulan -->
+        <section class="mt-16 bg-white p-6 rounded-2xl shadow-md border border-amber-100">
+            <h3 class="text-xl font-bold text-red-900 text-center mb-6">Kenapa Harus Bakso Ojolali?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="p-4 rounded-xl bg-amber-50">
+                    <div class="text-3xl text-red-600 mb-2"><i class="fa-solid fa-cow"></i></div>
+                    <h4 class="font-bold mb-1">Daging Sapi Pilihan</h4>
+                    <p class="text-xs text-slate-600">Olahan daging sapi asli higienis dan bertekstur kenyal pas.</p>
+                </div>
+                <div class="p-4 rounded-xl bg-amber-50">
+                    <div class="text-3xl text-red-600 mb-2"><i class="fa-solid fa-drumstick-bite"></i></div>
+                    <h4 class="font-bold mb-1">Porsi Bikin Kenyang</h4>
+                    <p class="text-xs text-slate-600">Mulai dari Rp 10.000 sudah dapat porsi pas kenyang.</p>
+                </div>
+                <div class="p-4 rounded-xl bg-amber-50">
+                    <div class="text-3xl text-red-600 mb-2"><i class="fa-solid fa-pepper-hot"></i></div>
+                    <h4 class="font-bold mb-1">Sambal Pedas Mantap</h4>
+                    <p class="text-xs text-slate-600">Racikan sambal rawit asli yang bikin ketagihan.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-8 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+            <div>
+                <h4 class="text-lg font-bold text-amber-400 mb-2">Bakso Ojolali</h4>
+                <p class="text-xs text-slate-400">Warung Bakso Favorit Keluarga. Murah, Enak, Higienis, dan Selalu Bikin Rindu (Ojo Lali)!</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-amber-400 mb-2">Jam Operasional</h4>
+                <p class="text-xs text-slate-400">Setiap Hari: 10:00 - 21:30 WIB</p>
+                <p class="text-xs text-amber-300 mt-2"><i class="fa-brands fa-whatsapp text-green-400 mr-1"></i> Order WA: 0812-3456-7890</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold text-amber-400 mb-2">Lokasi</h4>
+                <p class="text-xs text-slate-400">Jl. Raya Nusantara No. 88 (Dekat Alun-alun)</p>
+            </div>
+        </div>
+        <div class="text-center text-xs text-slate-500 mt-8 pt-4 border-t border-slate-800">
+            &copy; 2026 Bakso Ojolali. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Cart Drawer / Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-end hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col justify-between transform translate-x-full transition-transform duration-300" id="cart-drawer">
+            <div class="p-4 bg-red-700 text-white flex justify-between items-center">
+                <h3 class="font-bold text-lg flex items-center"><i class="fa-solid fa-cart-shopping mr-2"></i> Keranjang Pesanan</h3>
+                <button id="close-cart" class="text-white hover:text-amber-300 text-xl font-bold">&times;</button>
+            </div>
+
+            <div id="cart-items" class="p-4 flex-grow overflow-y-auto space-y-4">
+                <!-- Cart items dynamically inserted here -->
+            </div>
+
+            <div class="p-4 border-t border-slate-200 bg-amber-50">
+                <div class="flex justify-between items-center mb-4 text-slate-800 font-bold text-lg">
+                    <span>Total Pembayaran:</span>
+                    <span id="cart-total" class="text-red-700">Rp 0</span>
+                </div>
+                <button id="checkout-btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition duration-200 flex items-center justify-center space-x-2 shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>Pesan via WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chatbot Floating Button -->
+    <button id="ai-toggle-btn" class="fixed bottom-5 right-5 z-40 bg-gradient-to-r from-red-600 to-amber-500 text-white p-4 rounded-full shadow-2xl hover:scale-105 transition-all duration-300 flex items-center justify-center group border-2 border-white">
+        <i class="fa-solid fa-robot text-2xl"></i>
+        <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out font-bold text-sm ml-0 group-hover:ml-2">Tanya Si Mang Bakso!</span>
+        <span class="absolute -top-1 -right-1 bg-amber-400 text-red-950 text-xs font-black px-1.5 py-0.5 rounded-full border border-white">AI</span>
+    </button>
+
+    <!-- AI Chatbot Window -->
+    <div id="ai-chat-window" class="fixed bottom-20 right-5 z-40 w-96 max-w-[calc(100vw-2.5rem)] bg-white rounded-2xl shadow-2xl border border-amber-200 flex flex-col hidden overflow-hidden h-[480px]">
+        <!-- Chat Header -->
+        <div class="bg-gradient-to-r from-red-700 to-red-600 text-white p-3.5 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="bg-amber-400 text-red-900 rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm">Si Mang Bakso (AI Assistant)</h4>
+                    <p class="text-[10px] text-amber-200 flex items-center">
+                        <span class="w-2 h-2 bg-green-400 rounded-full mr-1"></span> Siap bantu porsi 10k-20k
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button id="api-key-config-btn" title="Pengaturan API Key Gemini" class="text-amber-200 hover:text-white text-xs bg-red-800 px-2 py-1 rounded border border-red-500">
+                    <i class="fa-solid fa-key"></i> API
+                </button>
+                <button id="close-ai" class="text-white hover:text-amber-300 font-bold text-lg">&times;</button>
+            </div>
+        </div>
+
+        <!-- API Key Input Panel -->
+        <div id="api-key-panel" class="bg-amber-100 p-3 text-xs border-b border-amber-200 hidden">
+            <label class="block font-bold text-slate-700 mb-1">Masukkan Gemini API Key (Opsional):</label>
+            <div class="flex gap-2">
+                <input type="password" id="gemini-api-key" placeholder="AIzaSy..." class="w-full px-2 py-1 rounded border border-amber-300 text-xs focus:outline-none">
+                <button id="save-api-key" class="bg-red-700 text-white px-3 py-1 rounded font-bold hover:bg-red-800">Simpan</button>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-1">Tanpa API key, Si Mang tetap bisa menjawab secara otomatis!</p>
+        </div>
+
+        <!-- Chat Messages Container -->
+        <div id="chat-messages" class="p-3 flex-grow overflow-y-auto space-y-3 bg-amber-50/50 text-xs">
+            <div class="flex items-start space-x-2">
+                <div class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-[10px] shrink-0 font-bold">Mang</div>
+                <div class="bg-white p-2.5 rounded-2xl rounded-tl-none border border-amber-100 shadow-sm text-slate-700 max-w-[85%]">
+                    Halo juragan! 👋 Saya <b>Si Mang Bakso</b>, asisten digital warung Bakso Ojolali! Ada yang bisa Si Mang bantu dari pilihan menu 10k-20k kami?
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Prompts -->
+        <div class="px-3 py-1.5 bg-white border-t border-slate-100 flex gap-1.5 overflow-x-auto whitespace-nowrap text-[11px] no-scrollbar">
+            <button class="quick-btn bg-amber-100 hover:bg-amber-200 text-red-900 px-2.5 py-1 rounded-full border border-amber-200">
+                ❓ Siapa kamu?
+            </button>
+            <button class="quick-btn bg-amber-100 hover:bg-amber-200 text-red-900 px-2.5 py-1 rounded-full border border-amber-200">
+                💡 Rekomendasi 15rb
+            </button>
+            <button class="quick-btn bg-amber-100 hover:bg-amber-200 text-red-900 px-2.5 py-1 rounded-full border border-amber-200">
+                🌶️ Paling Pedas?
+            </button>
+        </div>
+
+        <!-- Chat Input -->
+        <div class="p-2 bg-white border-t border-amber-100 flex items-center gap-2">
+            <input type="text" id="ai-input" placeholder="Tanya 'Siapa kamu?', menu, atau rekomendasi..." class="flex-grow px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:border-red-500">
+            <button id="send-ai-msg" class="bg-red-700 hover:bg-red-800 text-white rounded-xl w-9 h-9 flex items-center justify-center shrink-0 transition">
+                <i class="fa-solid fa-paper-plane text-xs"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed top-20 right-5 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center space-x-2 text-xs z-50 transform translate-y-[-100px] opacity-0 transition-all duration-300">
+        <i class="fa-solid fa-circle-check text-green-400 text-base"></i>
+        <span id="toast-msg">Menu ditambahkan ke keranjang!</span>
+    </div>
+
+    <script>
+        // DATA MENU BAKSO OJOLALI
+        const MENU_DATA = [
+            {
+                id: 1,
+                nama: "Bakso Hemat Asoy",
+                kategori: "makanan",
+                harga: 10000,
+                deskripsi: "4 Bakso Halus Kecil + Mie/Bihun + Sayur + Kuah Kaldu Gurih Segar.",
+                gambar: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=500&q=80",
+                badge: "Paling Hemat"
+            },
+            {
+                id: 2,
+                nama: "Bakso Urat Mantap",
+                kategori: "makanan",
+                harga: 13000,
+                deskripsi: "1 Bakso Urat Sapi Besar Kenyal + 2 Bakso Halus + Mie + Tahu Pok.",
+                gambar: "https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=500&q=80",
+                badge: "Favorit"
+            },
+            {
+                id: 3,
+                nama: "Bakso Telur Rebus",
+                kategori: "makanan",
+                harga: 15000,
+                deskripsi: "1 Bakso Isi Telur Ayam Utuh + 2 Bakso Kecil + Mie Lengkap + Pangsit.",
+                gambar: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=500&q=80",
+                badge: "Kenyang"
+            },
+            {
+                id: 4,
+                nama: "Bakso Mercon Pedas Gila",
+                kategori: "makanan",
+                harga: 17000,
+                deskripsi: "1 Bakso Besar Isi Cincangan Cabai Rawit Melimpah + 2 Bakso Halus.",
+                gambar: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=500&q=80",
+                badge: "Spicy 🔥"
+            },
+            {
+                id: 5,
+                nama: "Bakso Keju Leleh",
+                kategori: "makanan",
+                harga: 18000,
+                deskripsi: "1 Bakso Besar Isi Keju Cheddar/Lumer + 2 Bakso Halus + Mie Lengkap.",
+                gambar: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=500&q=80",
+                badge: "Kekinian"
+            },
+            {
+                id: 6,
+                nama: "Bakso Spesial Ojolali Komplit",
+                kategori: "makanan",
+                harga: 20000,
+                deskripsi: "1 Bakso Urat Besar + 1 Bakso Halus + Tetelan Daging Sapi + Mie + Pangsit Renyah.",
+                gambar: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?auto=format&fit=crop&w=500&q=80",
+                badge: "Komplit Top"
+            },
+            {
+                id: 7,
+                nama: "Es Teh Manis Segar",
+                kategori: "minuman",
+                harga: 3000,
+                deskripsi: "Teh melati pilihan dengan gula asli dingin menyegarkan.",
+                gambar: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=500&q=80",
+                badge: "Segar"
+            },
+            {
+                id: 8,
+                nama: "Es Jeruk Peras Asli",
+                kategori: "minuman",
+                harga: 5000,
+                deskripsi: "Jeruk peras segar manis asam alami pas penawar pedas.",
+                gambar: "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=500&q=80",
+                badge: "Favorit"
+            }
+        ];
+
+        let cart = [];
+        let geminiApiKey = localStorage.getItem('gemini_api_key') || '';
+
+        // DOM Elements
+        const menuContainer = document.getElementById('menu-container');
+        const cartBtn = document.getElementById('cart-btn');
+        const cartCount = document.getElementById('cart-count');
+        const cartModal = document.getElementById('cart-modal');
+        const cartDrawer = document.getElementById('cart-drawer');
+        const closeCart = document.getElementById('close-cart');
+        const cartItems = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        const aiToggleBtn = document.getElementById('ai-toggle-btn');
+        const aiChatWindow = document.getElementById('ai-chat-window');
+        const closeAi = document.getElementById('close-ai');
+        const aiInput = document.getElementById('ai-input');
+        const sendAiMsg = document.getElementById('send-ai-msg');
+        const chatMessages = document.getElementById('chat-messages');
+        const apiKeyConfigBtn = document.getElementById('api-key-config-btn');
+        const apiKeyPanel = document.getElementById('api-key-panel');
+        const geminiApiKeyInput = document.getElementById('gemini-api-key');
+        const saveApiKeyBtn = document.getElementById('save-api-key');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // Application Startup
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu('all');
+            updateCart();
+            if (geminiApiKey) geminiApiKeyInput.value = geminiApiKey;
+        });
+
+        // Menu Rendering and Filtering
+        function renderMenu(categoryFilter = 'all') {
+            menuContainer.innerHTML = '';
+            const filteredMenu = categoryFilter === 'all' 
+                ? MENU_DATA 
+                : MENU_DATA.filter(item => item.kategori === categoryFilter);
+
+            filteredMenu.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl shadow-md overflow-hidden border border-amber-100 flex flex-col justify-between hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 overflow-hidden bg-slate-100">
+                            <img src="${item.gambar}" alt="${item.nama}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" loading="lazy" onerror="this.src='https://placehold.co/500x300/b91c1c/ffffff?text=Bakso+Ojolali'">
+                            <span class="absolute top-3 left-3 bg-red-700 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase shadow">${item.badge}</span>
+                            <span class="absolute bottom-3 right-3 bg-slate-900/80 backdrop-blur text-amber-400 font-extrabold px-3 py-1 rounded-full text-sm border border-amber-400/30">Rp ${item.harga.toLocaleString('id-ID')}</span>
+                        </div>
+                        <div class="p-4">
+                            <h4 class="font-bold text-lg text-slate-800 mb-1">${item.nama}</h4>
+                            <p class="text-xs text-slate-500 mb-3 leading-relaxed">${item.deskripsi}</p>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0">
+                        <button onclick="addToCart(${item.id})" class="w-full bg-amber-400 hover:bg-amber-500 text-red-950 font-bold py-2.5 rounded-xl transition duration-200 flex items-center justify-center space-x-2 shadow-sm">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Tambah Pesanan</span>
+                        </button>
+                    </div>
+                `;
+                menuContainer.appendChild(card);
+            });
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderMenu(btn.dataset.category);
+            });
+        });
+
+        function addToCart(itemId) {
+            const item = MENU_DATA.find(m => m.id === itemId);
+            const existingIndex = cart.findIndex(c => c.id === itemId);
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += 1;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+            showToast(`"${item.nama}" dimasukkan keranjang!`);
+            updateCart();
+        }
+
+        function updateCartQty(itemId, change) {
+            const index = cart.findIndex(c => c.id === itemId);
+            if (index > -1) {
+                cart[index].qty += change;
+                if (cart[index].qty <= 0) cart.splice(index, 1);
+            }
+            updateCart();
+        }
+
+        function updateCart() {
+            const totalItems = cart.reduce((acc, curr) => acc + curr.qty, 0);
+            const totalPrice = cart.reduce((acc, curr) => acc + (curr.harga * curr.qty), 0);
+
+            cartCount.innerText = totalItems;
+            cartTotal.innerText = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-3"></i>
+                        <p class="text-sm">Keranjang kamu masih kosong nih.</p>
+                        <p class="text-xs text-amber-600 mt-1">Yuk pilih bakso favorit harga 10k-20k!</p>
+                    </div>
+                `;
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div class="flex-grow pr-2">
+                            <h5 class="font-bold text-xs text-slate-800">${item.nama}</h5>
+                            <p class="text-[11px] text-red-700 font-semibold">Rp ${(item.harga * item.qty).toLocaleString('id-ID')}</p>
+                        </div>
+                        <div class="flex items-center space-x-2 bg-slate-100 rounded-lg p-1">
+                            <button onclick="updateCartQty(${item.id}, -1)" class="w-6 h-6 bg-white rounded text-slate-700 font-bold text-xs flex items-center justify-center shadow-sm">-</button>
+                            <span class="text-xs font-bold px-1">${item.qty}</span>
+                            <button onclick="updateCartQty(${item.id}, 1)" class="w-6 h-6 bg-amber-400 rounded text-red-950 font-bold text-xs flex items-center justify-center shadow-sm">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-[-100px]', 'opacity-0'), 2500);
+        }
+
+        cartBtn.addEventListener('click', () => {
+            cartModal.classList.remove('hidden');
+            setTimeout(() => {
+                cartModal.classList.remove('opacity-0');
+                cartDrawer.classList.remove('translate-x-full');
+            }, 10);
+        });
+
+        function closeCartModal() {
+            cartDrawer.classList.add('translate-x-full');
+            cartModal.classList.add('opacity-0');
+            setTimeout(() => cartModal.classList.add('hidden'), 300);
+        }
+
+        closeCart.addEventListener('click', closeCartModal);
+        cartModal.addEventListener('click', (e) => { if (e.target === cartModal) closeCartModal(); });
+
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length === 0) return alert("Keranjang belanjaan masih kosong!");
+            let message = "*PESANAN BAKSO OJOLALI*\n-----------------------------------\n";
+            cart.forEach(item => {
+                message += `• ${item.nama} (${item.qty}x) = Rp ${(item.harga * item.qty).toLocaleString('id-ID')}\n`;
+            });
+            const total = cart.reduce((acc, curr) => acc + (curr.harga * curr.qty), 0);
+            message += `-----------------------------------\n*TOTAL: Rp ${total.toLocaleString('id-ID')}*\n\nMohon diproses ya Mang! Terima kasih 🙏`;
+            window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(message)}`, '_blank');
+        });
+
+        aiToggleBtn.addEventListener('click', () => aiChatWindow.classList.toggle('hidden'));
+        closeAi.addEventListener('click', () => aiChatWindow.classList.add('hidden'));
+        apiKeyConfigBtn.addEventListener('click', () => apiKeyPanel.classList.toggle('hidden'));
+
+        saveApiKeyBtn.addEventListener('click', () => {
+            const key = geminiApiKeyInput.value.trim();
+            geminiApiKey = key;
+            localStorage.setItem('gemini_api_key', key);
+            showToast(key ? "API Key tersimpan!" : "Menggunakan mode AI Lokal");
+            apiKeyPanel.classList.add('hidden');
+        });
+
+        document.querySelectorAll('.quick-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                aiInput.value = btn.innerText.replace(/^[^\w]+/, '').trim();
+                handleSendAiMessage();
+            });
+        });
+
+        sendAiMsg.addEventListener('click', handleSendAiMessage);
+        aiInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSendAiMessage(); });
+
+        async function handleSendAiMessage() {
+            const query = aiInput.value.trim();
+            if (!query) return;
+
+            appendMessage('user', query);
+            aiInput.value = '';
+            const loadingId = appendLoading();
+
+            setTimeout(async () => {
+                try {
+                    let responseText = "";
+                    if (geminiApiKey) {
+                        try {
+                            responseText = await callGeminiApi(query);
+                        } catch (err) {
+                            console.warn("Gemini API Error, falling back to local engine:", err);
+                            responseText = getLocalAiResponse(query) + "\n\n*(Catatan: Menggunakan balasan offline karena API Key Gemini sedang bermasalah).*";
+                        }
+                    } else {
+                        responseText = getLocalAiResponse(query);
+                    }
+                    removeLoading(loadingId);
+                    appendMessage('bot', responseText);
+                } catch (err) {
+                    removeLoading(loadingId);
+                    appendMessage('bot', 'Maaf juragan, Si Mang mengalami sedikit kendala. Coba tanya lagi ya!');
+                }
+            }, 500);
+        }
+
+        // Local Smart Assistant Engine (Including Identity Handler)
+        function getLocalAiResponse(query) {
+            const q = query.toLowerCase();
+
+            // Identity questions matching
+            if (q.includes('siapa') || q.includes('who are you') || q.includes('namamu') || q.includes('nama kamu') || q.includes('identitas')) {
+                return "Halo juragan! 👋 Saya adalah **Si Mang Bakso**, asisten AI interaktif resmi dari warung **Bakso Ojolali**.\n\nTugas saya adalah membantu Anda memilih menu bakso lezat (Rp 10.000 - Rp 20.000), memberikan rekomendasi sesuai budget, dan membantu pemesanan via WhatsApp!";
+            } else if (q.includes('15') || q.includes('15rb') || q.includes('15.000')) {
+                return "Untuk budget **Rp 15.000**, Si Mang sangat menyarankan **Bakso Telur Rebus** (15k) plus Es Teh Manis (3k) cuma butuh total 18k, atau Bakso Urat Mantap (13k) + Es Jeruk (5k) total pas 18k! Mantap kenyang!";
+            } else if (q.includes('pedas') || q.includes('mercon') || q.includes('cabe')) {
+                return "Suka yang hot? Pilih **Bakso Mercon Pedas Gila** seharga **Rp 17.000**! Cincangan cabai rawit dalamnya dijamin bikin merem melek! Jangan lupa order **Es Jeruk Peras** (5k) buat penawarnya!";
+            } else if (q.includes('laris') || q.includes('favorit') || q.includes('rekomendasi')) {
+                return "Menu paling favorit & laris di Bakso Ojolali:\n1. **Bakso Urat Mantap** (Rp 13.000)\n2. **Bakso Telur Rebus** (Rp 15.000)\n3. **Bakso Spesial Ojolali Komplit** (Rp 20.000)\n\nSemua dibikin dari daging sapi asli berkualitas!";
+            } else if (q.includes('hemat') || q.includes('murah') || q.includes('10k') || q.includes('10.000')) {
+                return "Mau yang paling hemat? Ada **Bakso Hemat Asoy** cuma **Rp 10.000**! Sudah dapat 4 bakso halus, mie/bihun, sayur, dan kuah kaldu sapi hangat!";
+            } else if (q.includes('20k') || q.includes('20.000') || q.includes('komplit')) {
+                return "Punya budget **Rp 20.000**? Langsung sikat **Bakso Spesial Ojolali Komplit**! Isian paling rame: bakso urat besar, bakso halus, tetelan sapi gurih, mie, dan pangsit renyah!";
+            } else if (q.includes('minuman') || q.includes('es') || q.includes('minum')) {
+                return "Kami punya minuman segar penawar pedas:\n• **Es Teh Manis Segar** - Rp 3.000\n• **Es Jeruk Peras Asli** - Rp 5.000";
+            } else if (q.includes('jam') || q.includes('buka') || q.includes('lokasi') || q.includes('alamat')) {
+                return "Warung Bakso Ojolali buka **setiap hari pukul 10:00 - 21:30 WIB**.\nLokasi kami di Jl. Raya Nusantara No. 88 (Dekat Alun-alun).";
+            } else {
+                return `Si Mang siap melayani! Saya adalah **Si Mang Bakso**, asisten digital Bakso Ojolali.\n\nKami punya beragam menu bakso gurih (Rp 10.000 - Rp 20.000):\n- Bakso Hemat Asoy (10k)\n- Bakso Urat Mantap (13k)\n- Bakso Telur Rebus (15k)\n- Bakso Mercon (17k)\n- Bakso Keju (18k)\n- Bakso Komplit (20k)\n\nAda budget berapa hari ini, juragan?`;
+            }
+        }
+
+        // Gemini API Integration with explicit identity prompt
+        async function callGeminiApi(userQuery) {
+            const systemPrompt = `
+Kamu adalah "Si Mang Bakso", asisten AI pelayanan ramah dan asyik untuk warung "Bakso Ojolali".
+Jika pelanggan bertanya mengenai identitas kamu (seperti "Siapa kamu?", "Siapa anda?", "Who are you?"), jawablah dengan jelas dan ceria bahwa kamu adalah "Si Mang Bakso", asisten virtual resmi Bakso Ojolali.
+
+Daftar Menu Makanan (10k-20k):
+1. Bakso Hemat Asoy - Rp 10.000
+2. Bakso Urat Mantap - Rp 13.000
+3. Bakso Telur Rebus - Rp 15.000
+4. Bakso Mercon Pedas Gila - Rp 17.000
+5. Bakso Keju Leleh - Rp 18.000
+6. Bakso Spesial Ojolali Komplit - Rp 20.000
+Minuman: Es Teh Manis (3k), Es Jeruk Peras (5k).
+Tugas: Rekomendasikan menu, perkenalkan diri dengan ramah bila ditanya identitas, dan hitungkan kombinasi budget pelanggan.
+`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{ role: "user", parts: [{ text: systemPrompt + "\nPertanyaan Pelanggan: " + userQuery }] }]
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error?.message || `HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        // Chat UI Helpers
+        function appendMessage(sender, text) {
+            const isBot = sender === 'bot';
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `flex items-start space-x-2 ${isBot ? '' : 'flex-row-reverse space-x-reverse'}`;
+            const avatar = isBot 
+                ? `<div class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-[10px] shrink-0 font-bold">Mang</div>`
+                : `<div class="bg-amber-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-[10px] shrink-0 font-bold"><i class="fa-solid fa-user"></i></div>`;
+
+            const formattedText = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+            msgDiv.innerHTML = `
+                ${avatar}
+                <div class="${isBot ? 'bg-white border-amber-100 rounded-tl-none' : 'bg-red-700 text-white border-red-800 rounded-tr-none'} p-2.5 rounded-2xl border shadow-sm text-slate-700 max-w-[85%] leading-relaxed">
+                    ${isBot ? formattedText : text}
+                </div>
+            `;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function appendLoading() {
+            const id = 'loading-' + Date.now();
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = id;
+            loadingDiv.className = 'flex items-start space-x-2';
+            loadingDiv.innerHTML = `
+                <div class="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-[10px] shrink-0 font-bold">Mang</div>
+                <div class="bg-white p-2.5 rounded-2xl rounded-tl-none border border-amber-100 text-slate-400 max-w-[85%] animate-pulse">
+                    Si Mang lagi mikir... 🍜
+                </div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return id;
+        }
+
+        function removeLoading(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+    </script>
+</body>
+</html>
